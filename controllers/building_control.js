@@ -25,20 +25,39 @@ function addBuilding(body,res){
 }
 
 function viewBuilding(body,res){
-    build.findOne({},{skip:0},{limit:6},(err,data)=>{
+    build.aggregate(
+        [
+            { "$geoNear": {
+                "near": {
+                    "type": "Point",
+                    "coordinates": [body.long,body.lat]
+                },
+                "spherical": true,
+                "maxDistance": 10000
+            }}
+        ]
+        
+    ).limit(6)
+    .skip(0)
+    .exec((err,data)=>{
         if(err)
-            res.json({err})
-        else{
-            if(data==null)
-                res.json({Message:'USER NOT FOUND..'})
+                res.json({err})
             else{
-                res.json({data})
+                if(data==null)
+                    res.json({Message:'USER NOT FOUND..'})
+                else{
+                    res.json({data})
+                }
             }
-        }
     })
+
 }
 
+function nearBuilding(body,res){
+    
+}
 module.exports = {
     addBuilding,
-    viewBuilding
+    viewBuilding,
+    nearBuilding
 }

@@ -13,6 +13,17 @@ var buildingSchema = new Schema({
         required:true,
         unique:true
     },  
+    category:{
+        type:String
+    },
+    type:{
+        type:String,
+        default:'Point'
+    },
+    location:{
+        type:[Number],
+        index:"2dsphere"
+    },
     adminID:{
         type:Schema.Types.ObjectId,
         ref:'admin',
