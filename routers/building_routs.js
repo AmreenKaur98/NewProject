@@ -27,8 +27,14 @@ router.post('/addBuilding',jwt.verifyToken,jwt.verify,upload.single('image'),(re
     }
     else{
         //console.log('body admin-----',req.body);
-        var obj={image:file,adminID:req.query.adminID,name:req.body.name}
-        console.log('req---',obj)
+        var obj={image:file,
+            adminID:req.query.adminID,
+            name:req.body.name,
+            category:req.body.category,
+            type:req.body.type,
+            location:req.body.location 
+           }
+        //console.log('req---',obj)
         buildingControl.addBuilding(obj,res)
     } 
 })

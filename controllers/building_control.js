@@ -3,7 +3,11 @@ const admin = require('../models/admin')
 
 
 function addBuilding(body,res){
-    //console.log('BODY IN CONTROLE-----',body)
+
+    body.location=body.location.split(',')
+    body.location[0]=parseFloat(body.location[0])
+    body.location[1]=parseFloat(body.location[1])
+    console.log('BODY IN CONTROLE-----',body)
     admin.findOne({_id:body.adminID},(err,result)=>{
         if(err)
             res.json({Message:err});
@@ -13,6 +17,7 @@ function addBuilding(body,res){
             else{
                 body.image = body.image.path
                 var obj=new build(body);
+                console.log('OBJ IN SAVE----------',obj)
                 obj.save(function(err,data){
                     if(err)
                         res.json({Message:'ERROR in save'});
@@ -53,11 +58,12 @@ function viewBuilding(body,res){
 
 }
 
-function nearBuilding(body,res){
+// function nearBuilding(body,res){
     
-}
+// }
+
 module.exports = {
     addBuilding,
     viewBuilding,
-    nearBuilding
+    //nearBuilding
 }
